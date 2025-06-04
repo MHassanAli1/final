@@ -11,10 +11,10 @@ function RootContent() {
   return <App />;
 }
 
-createRoot(document.getElementById('root')).render(
+const root = createRoot(document.getElementById('root'));
 
-    <AuthProvider>
-      <RootContent />
-    </AuthProvider>
-
+root.render(
+  <AuthProvider>
+    <RootContent /> {/* ✅ Now used correctly as a component */}
+  </AuthProvider>
 );

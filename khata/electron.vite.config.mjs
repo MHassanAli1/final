@@ -7,11 +7,8 @@ export default defineConfig({
     plugins: [externalizeDepsPlugin()]
   },
   preload: {
-  input: {
-    index: resolve(__dirname, 'src/preload/index.js') // 👈 use "index"
+    plugins: [externalizeDepsPlugin()]
   },
-  plugins: [externalizeDepsPlugin()]
-},
   renderer: {
     resolve: {
       alias: {
