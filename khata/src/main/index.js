@@ -2,11 +2,13 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import fetch from 'node-fetch';
 import { registerAuthHandlers } from './ipc/auth.js'
 import transactionHandlers from './ipc/transaction.js'
 import akhrajatHandlers from './ipc/akhrajat.js'
 import trollyHandlers from './ipc/trolly.js'
 import registerTestHandlers from './ipc/test.js'
+import syncHandlers from './ipc/sync.js';
 
 function createWindow() {
   // Create the browser window.
@@ -64,6 +66,7 @@ app.whenReady().then(() => {
   akhrajatHandlers(ipcMain)
   trollyHandlers(ipcMain)
   registerTestHandlers(ipcMain)
+  syncHandlers(ipcMain)
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

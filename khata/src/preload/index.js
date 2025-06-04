@@ -29,6 +29,9 @@ const api = {
     update: (data) => ipcRenderer.invoke('trollies:update', data),
     getByTransactionId: (id) => ipcRenderer.invoke('trollies:getByTransactionId', id),
   },
+  sync: {
+    transactions: () => ipcRenderer.invoke('sync:transactions'),
+  },
   test: {
     ping: () => ipcRenderer.invoke('test:ping'),
   },

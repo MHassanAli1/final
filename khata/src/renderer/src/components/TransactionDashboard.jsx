@@ -5,6 +5,7 @@ import TransactionDetails from "./TransactionDetails";
 import { urduZones } from "./UrduZones";
 import UrduKeyboard from "./UrduKeyboard"; // Import UrduKeyboard component
 import { LogoutButton } from "./logout";
+import SyncButton from "./syncButton";
 
 function TransactionDashboard() {
   const [transactions, setTransactions] = useState([]);
@@ -16,11 +17,11 @@ function TransactionDashboard() {
   const [filterStartDate, setFilterStartDate] = useState("");
   const [filterEndDate, setFilterEndDate] = useState("");
   const navigate = useNavigate();
-  
+
   // Keyboard state
   const [showKeyboard, setShowKeyboard] = useState(false);
   const [activeInput, setActiveInput] = useState(null);
-  
+
   // References for text input fields
   const inputRefs = useRef({});
 
@@ -31,11 +32,11 @@ function TransactionDashboard() {
   // Handle keyboard input
   const handleKeyPress = (char) => {
     if (!activeInput) return;
-    
+
     // For editing cells
     if (activeInput.startsWith('edit-')) {
       const [_, txnId, field] = activeInput.split('-');
-      
+
       if (char === 'backspace') {
         setEditRows(prev => {
           const currentValue = prev[txnId][field] || '';
@@ -58,13 +59,13 @@ function TransactionDashboard() {
       }
     }
   };
-  
+
   // Handle input focus
   const handleInputFocus = (inputId) => {
     setActiveInput(inputId);
     setShowKeyboard(true);
   };
-  
+
   // Close keyboard
   const closeKeyboard = () => {
     setShowKeyboard(false);
@@ -89,11 +90,11 @@ function TransactionDashboard() {
     let matchesDate = true;
     if (filterStartDate || filterEndDate) {
       const txnDate = txn.date ? new Date(txn.date) : null;
-      
+
       if (txnDate) {
         // Set time to start of day for consistent comparison
         const txnDateOnly = new Date(txnDate.getFullYear(), txnDate.getMonth(), txnDate.getDate());
-        
+
         if (filterStartDate) {
           const startDate = new Date(filterStartDate);
           const startDateOnly = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
@@ -101,7 +102,7 @@ function TransactionDashboard() {
             matchesDate = false;
           }
         }
-        
+
         if (filterEndDate && matchesDate) {
           const endDate = new Date(filterEndDate);
           const endDateOnly = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
@@ -138,21 +139,21 @@ function TransactionDashboard() {
   return (
     <div className="transaction-dashboard">
       <div className="navigation-header">
-        <button 
+        <button
           className="nav-button form-button"
           onClick={() => handleNavigation('/CreateTransactionForm')}
         >
           📝 فارم
         </button>
         <h2>ٹرانزیکشن ڈیش بورڈ</h2>
-        <button 
+        <button
           className="nav-button report-button"
           onClick={() => handleNavigation('/report')}
         >
           📊 اعداد و شمار
         </button>
       </div>
-      
+
       <div className="filters">
         <label>
           زون منتخب کریں:
@@ -501,7 +502,7 @@ function TransactionDashboard() {
           </div>
         </div>
       )}
-      
+
       {editConfirmId !== null && (
         <div className="modal">
           <div className="modal-content">
@@ -539,9 +540,9 @@ function TransactionDashboard() {
         </div>
       )}
 
-  
+
       {/* Keyboard toggle button */}
-      <button 
+      <button
         type="button"
         className="circle-btn primary keyboard-toggle"
         onClick={() => setShowKeyboard(!showKeyboard)}
@@ -549,15 +550,16 @@ function TransactionDashboard() {
       >
         ⌨️
       </button>
-      
+
       {/* Urdu Keyboard */}
       {showKeyboard && (
-        <UrduKeyboard 
-          onKeyPress={handleKeyPress} 
-          onClose={closeKeyboard} 
+        <UrduKeyboard
+          onKeyPress={handleKeyPress}
+          onClose={closeKeyboard}
         />
       )}
       <LogoutButton />
+      <SyncButton />
     </div>
   );
 }
